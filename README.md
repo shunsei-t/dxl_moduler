@@ -1,5 +1,11 @@
 # 依存
 Dynamixel SDKのpythonモジュールに依存
+```
+git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+cd DynamixelSDK
+python3 -m pip install ./python
+```
+
 # 説明
 SDKのpythonサンプルを使いやすくしただけ
 

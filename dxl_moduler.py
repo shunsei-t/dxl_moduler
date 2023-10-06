@@ -18,6 +18,7 @@
 ################################################################################
 
 import os
+import struct
 
 if os.name == 'nt':
     import msvcrt
@@ -98,7 +99,7 @@ class DxlClass:
             quit()
 
 
-    def write_operateing_mode(self, id, mode):
+    def write_operating_mode(self, id, mode):
         """
         OPERATING MODE<br>
         0  : current control<br>
@@ -211,6 +212,7 @@ class DxlClass:
     def write_goal_velocity(self, id, goal_velocity):
         """
         Velocity = goal_velocity * 0.229 [rpm]
+        -1023~ ~1023
         """
         dxl_comm_result, dxl_error = self.packetHandler.write4ByteTxRx(self.portHandler, id, self.ADDR_GOAL_VELOCITY, goal_velocity)
         if dxl_comm_result != COMM_SUCCESS:
@@ -242,7 +244,9 @@ class DxlClass:
             print("%s" % self.packetHandler.getTxRxResult(dxl_comm_result))
         elif dxl_error != 0:
             print("%s" % self.packetHandler.getRxPacketError(dxl_error))
-        return dxl_present_velocity
+        # print(type(dxl_present_velocity))
+        tmp = struct.pack("I", dxl_present_velocity)
+        return struct.unpack("i", tmp)[0]
 
 
     def read_present_position(self, id):
